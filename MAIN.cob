@@ -1,0 +1,37 @@
+IDENTIFICATION DIVISION.
+PROGRAM-ID. MAIN.
+
+ENVIRONMENT DIVISION.
+INPUT-OUTPUT SECTION.
+FILE-CONTROL.
+       SELECT F-EMP
+		   ASSIGN TO "employes.txt"
+		   ORGANIZATION IS LINE SEQUENTIAL.
+
+DATA DIVISION.
+FILE SECTION.
+FD F-EMP.
+01 EMP-REC.
+       05 EMP-NOM     PIC X(10).
+       05 EMP-AGE     PIC 99.
+       05 EMP-SALAIRE PIC 9(5)V99.
+
+WORKING-STORAGE SECTION.
+01 FIN-FICHIER PIC X VALUE "N".
+
+PROCEDURE DIVISION.
+       OPEN INPUT F-EMP.
+
+       PERFORM UNTIL FIN-FICHIER = "O"
+           READ F-EMP
+               AT END
+                   MOVE "O" TO FIN-FICHIER
+               NOT AT END
+                   DISPLAY "Nom : " EMP-NOM
+                           " Age : " EMP-AGE
+                           " Salaire : " EMP-SALAIRE
+           END-READ
+       END-PERFORM.
+
+       CLOSE F-EMP.
+       STOP RUN.
